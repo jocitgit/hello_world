@@ -30,11 +30,7 @@ pipeline {
         }
     }
     stage('Containerize') {
-        agent {
-            node {
-                label 'DockerDefault'
-            }
-         }
+        agent any
          steps {
             script{
                 unstash 'targetfiles'
