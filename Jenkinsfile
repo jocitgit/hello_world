@@ -40,7 +40,7 @@ pipeline {
                 unstash 'targetfiles'
                 sh 'ls -l -R'
                 def newApp = docker.build "jocitdocker/myapp:${env.BUILD_TAG}"
-               	sh 'docker login -u jocitdocker -p Tr1f0rce'          	
+               	          	
             	newApp.push()
             	
             }
