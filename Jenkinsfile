@@ -23,12 +23,12 @@ pipeline {
         }
 		stage('Containerize') {
 			steps {
-				sh ' ./mvnw install dockerfile:build'
+				sh ' mvn install dockerfile:build'
 			}
 		}
 		stage('Deliver') {
 			steps {
-				sh './mvnw dockerfile:push'
+				sh 'mvn dockerfile:push'
 			}
 		}
 		stage('Deploy') { 
