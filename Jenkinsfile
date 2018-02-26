@@ -21,19 +21,6 @@ pipeline {
                 }
             }
         }
-		stage('Containerize') {
-			steps {
-				script {
-                    def appImage = docker.build("my-helloworld:${env.BUILD_ID}")
-                    }
-                }
-			}
-		}
-		stage('Deliver') {
-			steps {
-				echo 'deliver stage'
-			}
-		}
 		stage('Deploy') { 
 			when {
                 branch 'deploy'
