@@ -29,5 +29,19 @@ pipeline {
             }
         }
     }
+    stage('Containerize') {
+        agent {
+            node {
+                label 'DockerDefault'
+            }
+         }
+         steps {
+            script{
+                unstash 'targetfiles'
+                sh 'ls -l -R'
+                def image = docker.build("my-image:${env.BUILD_ID}", ' .')
+            }
+         }
+      }	
    }
 }
