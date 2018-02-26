@@ -1,42 +1,45 @@
 pipeline {
-    agent {
+  agent none
+  stages{
+  	stage('Build') { 
+  		agent {
         docker {
             image 'maven:alpine' 
             args '-v /root/.m2:/root/.m2 -p 8081:8081' 
         }
+        steps {
+            sh 'mvn -B -DskipTests clean package'
+            stash includes: 'target/*.jar', name: 'targetfiles' 
+        }
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package' 
+    stage('Test') {
+    	agent {
+        docker {
+            image 'maven:alpine' 
+            args '-v /root/.m2:/root/.m2 -p 8081:8081' 
+        }
+        steps {
+            sh 'mvn test'
+        }
+        post {
+            always {
+                junit 'target/surefire-reports/*.xml'
             }
         }
-		stage('Test') {
-            steps {
-                sh 'mvn test'
+    }
+    stage('Containerize') {
+        agent {
+            node {
+                label 'DockerDefault'
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+         }
+         steps {
+            script{
+                unstash 'targetfiles'
+                sh 'ls -l -R'
+                def image = docker.build("my-image:${env.BUILD_ID}", ' .')
             }
-        }
-        stage('Containerize') {
-        	steps {
-        		echo 'containerize'
-        		script {
-        			sh 'echo in containerize script'
-        			def customImage = docker.build("my-image:${env.BUILD_ID}")
-        		}
-        	}
-        }
-		stage('Deploy') { 
-			when {
-                branch 'deploy'
-            }
-            steps {
-                sh 'java -jar target/helloworld-0.0.1-SNAPSHOT.jar' 
-            }
-        }
+         }
+      }	
     }
 }
