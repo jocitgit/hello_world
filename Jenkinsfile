@@ -23,12 +23,15 @@ pipeline {
         }
 		stage('Containerize') {
 			steps {
-				sh ' mvn install dockerfile:build'
+				script {
+                    def appImage = docker.build("my-helloworld:${env.BUILD_ID}")
+                    }
+                }
 			}
 		}
 		stage('Deliver') {
 			steps {
-				sh 'mvn dockerfile:push'
+				echo 'deliver stage'
 			}
 		}
 		stage('Deploy') { 
