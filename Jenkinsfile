@@ -21,6 +21,11 @@ pipeline {
                 }
             }
         }
+        stage('Containerize') {
+        	steps {
+        		echo 'containerize'
+        	}
+        }
 		stage('Deploy') { 
 			when {
                 branch 'deploy'
