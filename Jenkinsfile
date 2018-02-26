@@ -24,6 +24,9 @@ pipeline {
         stage('Containerize') {
         	steps {
         		echo 'containerize'
+        		script {
+        			sh 'echo in containerize script'
+        		}
         	}
         }
 		stage('Deploy') { 
