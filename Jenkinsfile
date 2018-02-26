@@ -40,9 +40,8 @@ pipeline {
                 unstash 'targetfiles'
                 sh 'ls -l -R'
                 def newApp = docker.build "jocitdocker/myapp"
-            		newApp.push("${env.BUILD_NUMBER}")
-            		newApp.push("latest")
-            	}
+            	newApp.push("${env.BUILD_NUMBER}")
+            	newApp.push("latest")
             }
          }
       }	
