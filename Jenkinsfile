@@ -19,7 +19,7 @@ pipeline {
             script{
                 unstash 'targetfiles'
                 sh 'ls -l -R'
-                sh 'docker build my-image:${env.BUILD_ID}'
+                sh 'docker build my-image'
             }
          }
       }	
