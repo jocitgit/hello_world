@@ -19,7 +19,7 @@ pipeline {
             script{
                 unstash 'targetfiles'
                 sh 'ls -l -R'
-                sh 'docker build my-image'
+                def newApp = docker.build "jocitdocker/myapp:${env.BUILD_TAG}"
             }
          }
       }	
