@@ -23,8 +23,7 @@ pipeline {
         }
 		stage('Containerize') {
 			steps {
-				script {
-                    def appImage = docker.build("my-helloworld:${env.BUILD_ID}")
+				echo 'Containerize'
                     }
                 }
 			}
