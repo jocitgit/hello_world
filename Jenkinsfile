@@ -21,7 +21,20 @@ pipeline {
                 }
             }
         }
+		stage('Containerize') {
+			steps {
+				sh ' ./mvnw install dockerfile:build'
+			}
+		}
+		stage('Deliver') {
+			steps {
+				sh './mvnw dockerfile:push'
+			}
+		}
 		stage('Deploy') { 
+			when {
+                branch 'deploy'
+            }
             steps {
                 sh 'java -jar target/helloworld-0.0.1-SNAPSHOT.jar' 
             }
