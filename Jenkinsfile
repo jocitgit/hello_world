@@ -40,7 +40,7 @@ pipeline {
                 unstash 'targetfiles'
                 sh 'ls -l -R'
                 def newApp = docker.build "jocitdocker/myapp:${env.BUILD_TAG}"
-                docker.withRegistry('https://docker.io', 'dockerhub') {
+                docker.withRegistry('https://docker.io', 'dockerhub-id') {
             		newApp.push()
         		}
             	
