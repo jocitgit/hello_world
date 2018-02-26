@@ -26,6 +26,7 @@ pipeline {
         		echo 'containerize'
         		script {
         			sh 'echo in containerize script'
+        			def customImage = docker.build("my-image:${env.BUILD_ID}")
         		}
         	}
         }
