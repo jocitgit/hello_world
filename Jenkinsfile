@@ -14,7 +14,10 @@ pipeline {
         }
     }
     stage('Containerize') {
-        agent any
+        agent {
+        	node {
+        	}
+        }
          steps {
             script{
                 unstash 'targetfiles'
