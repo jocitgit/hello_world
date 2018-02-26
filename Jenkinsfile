@@ -40,7 +40,6 @@ pipeline {
                 unstash 'targetfiles'
                 sh 'ls -l -R'
                 def newApp = docker.build "jocitdocker/myapp"
-                docker.withRegistry('https://hub.docker.com', 'dockerhub') {
             		newApp.push("${env.BUILD_NUMBER}")
             		newApp.push("latest")
             	}
